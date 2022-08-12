@@ -1,6 +1,10 @@
-const Blog = ({blog}) => (
+const Blog = ({...blog}) => (
   <div>
-    {blog.title} {blog.author}
+    <li className="blog">
+      
+      Title: "{blog.title}". Author: {blog.author}.
+
+      </li>
   </div>  
 )
 
