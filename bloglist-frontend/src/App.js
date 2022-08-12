@@ -73,6 +73,12 @@ const App = () => {
     setNewBlog(event.target.value)
   }
 
+  const logout = () =>{
+    window.localStorage.removeItem('loggedBlogappUser')
+    window.location.reload(false);
+
+  }
+
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
@@ -127,6 +133,7 @@ const UserBlogs = () => {
         loginForm() :
         <div>
           <p>{user.name} logged in</p>
+          <button onClick={logout}>Logout</button>
           {UserBlogs().map(blog =>
           <Blog key={blog.id}
           title={blog.title}
