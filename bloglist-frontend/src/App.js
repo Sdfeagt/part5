@@ -13,6 +13,10 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+  const [likes, setLikes] = useState(0)
 
   useEffect(() => {
     blogService
@@ -53,12 +57,12 @@ const App = () => {
   }
 
   const addBlog = (event) => {
-    event.preventDefault()
+    setNewBlog(event.target.value)
     const blogObject = {
-      content: newBlog,
-      date: new Date().toISOString(),
-      important: Math.random() > 0.5,
-      id: blogs.length + 1,
+      title: title,
+      author: author,
+      url: url,
+      likes: likes
     }
 
     blogService
@@ -69,9 +73,49 @@ const App = () => {
       })
   }
 
-  const handleBlogchange = (event) => {
-    setNewBlog(event.target.value)
-  }
+  const AddBlogForm = () =>(
+    <form onSubmit={addBlog}>
+      <p>Add a blog</p>
+      <div>
+          Title
+          <input
+            type="text"
+            value={title}
+            name="Title"
+            onChange={({ target }) => setTitle(target.value)}
+          />
+      </div>
+      <div>
+          Author
+          <input
+            type="text"
+            value={author}
+            name="Author"
+            onChange={({ target }) => setAuthor(target.value)}
+          />
+      </div>
+      <div>
+          Url
+          <input
+            type="text"
+            value={url}
+            name="Url"
+            onChange={({ target }) => setUrl(target.value)}
+          />
+      </div>
+      <div>
+          Likes
+          <input
+            type="number"
+            value={likes}
+            name="Title"
+            onChange={({ target }) => setLikes(target.value)}
+          />
+      </div>
+      <button type="submit">Add Blog</button>
+
+    </form>
+  )
 
   const logout = () =>{
     window.localStorage.removeItem('loggedBlogappUser')
@@ -116,11 +160,9 @@ const App = () => {
 
 const UserBlogs = () => {
   const loggedin = window.localStorage.getItem('loggedBlogappUser')
-  console.log(blogs.map(blog => blog.user.username));
   const tocheck = JSON.parse(loggedin)
-  console.log(tocheck.username);
+  console.log("Username of the user: ", tocheck.username);
   const goodid = blogs.filter(blog => blog.user.username === tocheck.username)
-  console.log(goodid);
   return goodid
 }
 
@@ -140,6 +182,7 @@ const UserBlogs = () => {
           author={blog.author}
                     />
                     )}
+          {AddBlogForm()}
         </div>
       }
 
