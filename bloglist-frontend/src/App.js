@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import Error from './components/Error'
 import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -18,7 +19,15 @@ const App = () => {
   const [likes, setLikes] = useState(0)
   const [Message, setMessage] = useState(null)
 
-  
+  useEffect(() => {
+    const time = setTimeout(() => {
+      setMessage(null)
+      setErrorMessage(null)
+    }, 5000);
+    return () => {
+      clearTimeout(time)
+    };
+  })
 
   useEffect(() => {
     blogService
@@ -175,6 +184,7 @@ const App = () => {
   return (
     <div>
       <Notification message={Message} />
+      <Error message={errorMessage}/>
       <h1>Blogs</h1>
 
       {user === null ?
