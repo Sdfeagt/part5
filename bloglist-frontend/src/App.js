@@ -8,7 +8,6 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
@@ -17,6 +16,9 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [likes, setLikes] = useState(0)
+  const [Message, setMessage] = useState(null)
+
+  
 
   useEffect(() => {
     blogService
@@ -57,7 +59,7 @@ const App = () => {
   }
 
   const addBlog = (event) => {
-    setNewBlog(event.target.value)
+    event.preventDefault()
     const blogObject = {
       title: title,
       author: author,
@@ -69,8 +71,31 @@ const App = () => {
       .create(blogObject)
       .then(returnedblog => {
         setBlogs(blogs.concat(returnedblog))
-        setNewBlog('')
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+        setLikes(0)
       })
+
+      setMessage(`${blogObject.title} added to the db!`)
+  }
+
+  const handleTitleChange = (event) =>{
+    setTitle(event.target.value)
+  }
+
+  const handleAuthorChange = (event) =>{
+
+    setAuthor(event.target.value)
+  }
+
+  const handleUrlChange = (event) =>{
+
+    setUrl(event.target.value)
+  }
+
+  const handleLikesChange = (event) =>{
+    setLikes(event.target.value)
   }
 
   const AddBlogForm = () =>(
@@ -82,7 +107,7 @@ const App = () => {
             type="text"
             value={title}
             name="Title"
-            onChange={({ target }) => setTitle(target.value)}
+            onChange={handleTitleChange}
           />
       </div>
       <div>
@@ -91,7 +116,7 @@ const App = () => {
             type="text"
             value={author}
             name="Author"
-            onChange={({ target }) => setAuthor(target.value)}
+            onChange={handleAuthorChange}
           />
       </div>
       <div>
@@ -100,7 +125,7 @@ const App = () => {
             type="text"
             value={url}
             name="Url"
-            onChange={({ target }) => setUrl(target.value)}
+            onChange={handleUrlChange}
           />
       </div>
       <div>
@@ -109,7 +134,7 @@ const App = () => {
             type="number"
             value={likes}
             name="Title"
-            onChange={({ target }) => setLikes(target.value)}
+            onChange={handleLikesChange}
           />
       </div>
       <button type="submit">Add Blog</button>
@@ -146,37 +171,18 @@ const App = () => {
       <button type="submit">login</button>
     </form>      
   )
-  
- /* const blogForm = () => (
-    <form onSubmit={addBlog
-}>
-      <input
-        value={newBlog}
-        onChange={handleBlogchange}
-      />
-      <button type="submit">save</button>
-    </form>  
-)*/
-
-const UserBlogs = () => {
-  const loggedin = window.localStorage.getItem('loggedBlogappUser')
-  const tocheck = JSON.parse(loggedin)
-  console.log("Username of the user: ", tocheck.username);
-  const goodid = blogs.filter(blog => blog.user.username === tocheck.username)
-  return goodid
-}
 
   return (
     <div>
+      <Notification message={Message} />
       <h1>Blogs</h1>
-      <Notification message={errorMessage} />
 
       {user === null ?
         loginForm() :
         <div>
           <p>{user.name} logged in</p>
           <button onClick={logout}>Logout</button>
-          {UserBlogs().map(blog =>
+          {blogs.map(blog =>
           <Blog key={blog.id}
           title={blog.title}
           author={blog.author}
