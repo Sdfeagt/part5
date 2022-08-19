@@ -146,7 +146,9 @@ const App = () => {
           <Blog key={blog.id}
           title={blog.title}
           author={blog.author}
-                    />
+          url={blog.url}
+          likes={blog.likes}
+            />
                     )}
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
           <AddBlogForm 
