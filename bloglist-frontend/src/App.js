@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import Blog from './components/Blog'
 import Notification from './components/Notification'
@@ -6,6 +6,9 @@ import Error from './components/Error'
 import Footer from './components/Footer'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import LoginForm from './components/LoginForm'
+import Togglable from './components/Toggable'
+import AddBlogForm from './components/AddBlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -18,6 +21,10 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [likes, setLikes] = useState(0)
   const [Message, setMessage] = useState(null)
+
+  const blogFormRef = useRef()
+
+
 
   useEffect(() => {
     const time = setTimeout(() => {
@@ -69,6 +76,7 @@ const App = () => {
 
   const addBlog = (event) => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     const blogObject = {
       title: title,
       author: author,
@@ -107,79 +115,13 @@ const App = () => {
     setLikes(event.target.value)
   }
 
-  const AddBlogForm = () =>(
-    <form onSubmit={addBlog}>
-      <p>Add a blog</p>
-      <div>
-          Title
-          <input
-            type="text"
-            value={title}
-            name="Title"
-            onChange={handleTitleChange}
-          />
-      </div>
-      <div>
-          Author
-          <input
-            type="text"
-            value={author}
-            name="Author"
-            onChange={handleAuthorChange}
-          />
-      </div>
-      <div>
-          Url
-          <input
-            type="text"
-            value={url}
-            name="Url"
-            onChange={handleUrlChange}
-          />
-      </div>
-      <div>
-          Likes
-          <input
-            type="number"
-            value={likes}
-            name="Title"
-            onChange={handleLikesChange}
-          />
-      </div>
-      <button type="submit">Add Blog</button>
-
-    </form>
-  )
 
   const logout = () =>{
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload(false);
-
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-          username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-      </div>
-      <div>
-          password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-      </div>
-      <button type="submit">login</button>
-    </form>      
-  )
+
 
   return (
     <div>
@@ -188,7 +130,15 @@ const App = () => {
       <h1>Blogs</h1>
 
       {user === null ?
-        loginForm() :
+        <Togglable buttonLabel='login'>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        />
+      </Togglable> :
         <div>
           <p>{user.name} logged in</p>
           <button onClick={logout}>Logout</button>
@@ -198,7 +148,20 @@ const App = () => {
           author={blog.author}
                     />
                     )}
-          {AddBlogForm()}
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+          <AddBlogForm 
+           addBlog = {addBlog}
+           title = {title}
+           handleTitleChange = {handleTitleChange}
+           author = {author}
+           handleAuthorChange = {handleAuthorChange} 
+           url = {url} 
+           handleUrlChange = {handleUrlChange} 
+           likes= {likes} 
+           handleLikesChange = {handleLikesChange}
+            />
+           </Togglable>
+
         </div>
       }
 
