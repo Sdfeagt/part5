@@ -42,7 +42,7 @@ const App = () => {
       .then(blogs => {
         setBlogs(blogs)
       })
-  }, [])
+    }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -123,6 +123,8 @@ const App = () => {
 
 
 
+
+
   return (
     <div>
       <Notification message={Message} />
@@ -148,6 +150,7 @@ const App = () => {
           author={blog.author}
           url={blog.url}
           likes={blog.likes}
+          id = {blog.id}
             />
                     )}
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
