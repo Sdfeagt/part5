@@ -15,7 +15,7 @@ import AddBlogForm from './components/AddBlogForm'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [title, setTitle] = useState('')
@@ -26,7 +26,7 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-  const compareLikes = (a,b) =>{
+  const compareLikes = (a,b) => {
     return a.likes-b.likes
   }
 
@@ -36,10 +36,10 @@ const App = () => {
     const time = setTimeout(() => {
       setMessage(null)
       setErrorMessage(null)
-    }, 5000);
+    }, 5000)
     return () => {
       clearTimeout(time)
-    };
+    }
   })
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const App = () => {
         const sortedlikes = blogs.sort(compareLikes)
         setBlogs(sortedlikes)
       })
-    }, [])
+  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -71,7 +71,7 @@ const App = () => {
       blogService.setToken(user.token)
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       setUsername('')
       setPassword('')
     } catch (exception) {
@@ -102,31 +102,31 @@ const App = () => {
         setLikes(0)
       })
 
-      setMessage(`${blogObject.title} added to the db!`)
+    setMessage(`${blogObject.title} added to the db!`)
   }
 
-  const handleTitleChange = (event) =>{
+  const handleTitleChange = (event) => {
     setTitle(event.target.value)
   }
 
-  const handleAuthorChange = (event) =>{
+  const handleAuthorChange = (event) => {
 
     setAuthor(event.target.value)
   }
 
-  const handleUrlChange = (event) =>{
+  const handleUrlChange = (event) => {
 
     setUrl(event.target.value)
   }
 
-  const handleLikesChange = (event) =>{
+  const handleLikesChange = (event) => {
     setLikes(event.target.value)
   }
 
 
-  const logout = () =>{
+  const logout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
-    window.location.reload(false);
+    window.location.reload(false)
   }
 
 
@@ -142,45 +142,45 @@ const App = () => {
 
       {user === null ?
         <Togglable buttonLabel='login'>
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
-        />
-      </Togglable> :
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+        </Togglable> :
         <div>
           <p>{user.name} logged in</p>
           <button onClick={logout}>Logout</button>
           {blogs.map(blog =>
-          <Blog key={blog.id}
-          title={blog.title}
-          author={blog.author}
-          url={blog.url}
-          likes={blog.likes}
-          id = {blog.id}
+            <Blog key={blog.id}
+              title={blog.title}
+              author={blog.author}
+              url={blog.url}
+              likes={blog.likes}
+              id = {blog.id}
             />
-                    )}
+          )}
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
-          <AddBlogForm 
-           addBlog = {addBlog}
-           title = {title}
-           handleTitleChange = {handleTitleChange}
-           author = {author}
-           handleAuthorChange = {handleAuthorChange} 
-           url = {url} 
-           handleUrlChange = {handleUrlChange} 
-           likes= {likes} 
-           handleLikesChange = {handleLikesChange}
+            <AddBlogForm
+              addBlog = {addBlog}
+              title = {title}
+              handleTitleChange = {handleTitleChange}
+              author = {author}
+              handleAuthorChange = {handleAuthorChange}
+              url = {url}
+              handleUrlChange = {handleUrlChange}
+              likes= {likes}
+              handleLikesChange = {handleLikesChange}
             />
-           </Togglable>
+          </Togglable>
 
         </div>
       }
 
       <div>
-      </div>   
+      </div>
       <ul>
       </ul>
 

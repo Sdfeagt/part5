@@ -1,15 +1,16 @@
-import { useState} from 'react'
+/* eslint-disable react/no-unescaped-entities */
+import { useState } from 'react'
 import blogService from '../services/blogs'
 
 
 
-const Blog = ({...blog}) => {
+const Blog = ({ ...blog }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
 
   const showWhenVisible = { display: detailsVisible ? '' : 'none' }
   const hideWhenVisible = { display: detailsVisible ? 'none' : '' }
 
-  const updateBlog = async event =>{
+  const updateBlog = async event => {
     const blogObject = {
       title: blog.title,
       author: blog.author,
@@ -18,29 +19,29 @@ const Blog = ({...blog}) => {
     }
 
     blogService
-    .update(blog.id, blogObject)
+      .update(blog.id, blogObject)
 
-    window.location.reload();
+    window.location.reload()
   }
 
-  const deleteBlog = async event =>{
+  const deleteBlog = async event => {
     blogService
-    .remove(blog.id)
-    window.location.reload();
+      .remove(blog.id)
+    window.location.reload()
 
   }
 
   return (
-  <div>
-    <li className="blog">
-      <div style={hideWhenVisible}>
+    <div>
+      <li className="blog">
+        <div style={hideWhenVisible}>
       Title: "{blog.title}". Author: {blog.author}.<button onClick={() => setDetailsVisible(true)}>View details</button>
-      </div>
-      <div style={showWhenVisible}>
-      Title: "{blog.title}". Author: {blog.author} Url: {blog.url} Likes: {blog.likes} <button onClick={updateBlog}>Like</button> <button onClick={deleteBlog}>Delete</button> <button onClick={() => setDetailsVisible(false)}>Close</button>
+        </div>
+        <div style={showWhenVisible}>
+      Title: '{blog.title}'. Author: {blog.author} Url: {blog.url} Likes: {blog.likes} <button onClick={updateBlog}>Like</button> <button onClick={deleteBlog}>Delete</button> <button onClick={() => setDetailsVisible(false)}>Close</button>
         </div>
       </li>
-  </div>  
+    </div>
   )
 }
 

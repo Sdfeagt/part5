@@ -28,7 +28,7 @@ const update = (id, newObject) => {
   return request.then(response => response.data)
 }
 
-const remove = (id) =>{
+const remove = (id) => {
   const config = {
     headers: { Authorization: token },
   }
