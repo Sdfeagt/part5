@@ -10,6 +10,8 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Toggable'
 import AddBlogForm from './components/AddBlogForm'
 
+//TODO: 5.9 and 5.10
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
@@ -23,6 +25,10 @@ const App = () => {
   const [Message, setMessage] = useState(null)
 
   const blogFormRef = useRef()
+
+  const compareLikes = (a,b) =>{
+    return a.likes-b.likes
+  }
 
 
 
@@ -41,6 +47,8 @@ const App = () => {
       .getAll()
       .then(blogs => {
         setBlogs(blogs)
+        const sortedlikes = blogs.sort(compareLikes)
+        setBlogs(sortedlikes)
       })
     }, [])
 
@@ -120,6 +128,7 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     window.location.reload(false);
   }
+
 
 
 
