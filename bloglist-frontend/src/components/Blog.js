@@ -1,10 +1,9 @@
-/* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react'
 import blogService from '../services/blogs'
 
 
 
-const Blog = ({ blog }) => {
+const Blog = ({ ...blog }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
 
   const showWhenVisible = { display: detailsVisible ? '' : 'none' }
