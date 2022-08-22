@@ -7,6 +7,7 @@ const AddBlogForm = ({ addBlog, title, handleTitleChange, author, handleAuthorCh
         type="text"
         value={title}
         name="Title"
+        id="Title"
         onChange={handleTitleChange}
       />
     </div>
@@ -16,6 +17,7 @@ const AddBlogForm = ({ addBlog, title, handleTitleChange, author, handleAuthorCh
         type="text"
         value={author}
         name="Author"
+        id="Author"
         onChange={handleAuthorChange}
       />
     </div>
@@ -25,6 +27,7 @@ const AddBlogForm = ({ addBlog, title, handleTitleChange, author, handleAuthorCh
         type="text"
         value={url}
         name="Url"
+        id="Url"
         onChange={handleUrlChange}
       />
     </div>
@@ -34,6 +37,7 @@ const AddBlogForm = ({ addBlog, title, handleTitleChange, author, handleAuthorCh
         type="number"
         value={likes}
         name="Likes"
+        id="Likes"
         onChange={handleLikesChange}
       />
     </div>

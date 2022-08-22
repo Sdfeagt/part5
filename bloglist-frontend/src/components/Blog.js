@@ -14,7 +14,7 @@ const Blog = ({ ...blog }) => {
       title: blog.title,
       author: blog.author,
       url: blog.url,
-      likes: blog.likes
+      likes: blog.likes + 1
     }
 
     blogService
@@ -34,10 +34,10 @@ const Blog = ({ ...blog }) => {
     <div>
       <li className="blog">
         <div style={hideWhenVisible}>
-      Title: {blog.title}. Author: {blog.author}.<button onClick={() => setDetailsVisible(true)}>View details</button>
+      Title: {blog.title}. Author: {blog.author}.<button id='Details' onClick={() => setDetailsVisible(true)}>View details</button>
         </div>
         <div style={showWhenVisible}>
-      Title: {blog.title}. Author: {blog.author} Url: {blog.url} Likes: {blog.likes} <button onClick={updateBlog}>Like</button> <button onClick={deleteBlog}>Delete</button> <button onClick={() => setDetailsVisible(false)}>Close</button>
+      Title: {blog.title}. Author: {blog.author} Url: {blog.url} Likes: {blog.likes} <button id = 'Like' onClick={updateBlog}>Like</button> <button id='delete' onClick={deleteBlog}>Delete</button> <button onClick={() => setDetailsVisible(false)}>Close</button>
         </div>
       </li>
     </div>
