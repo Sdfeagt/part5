@@ -9,6 +9,7 @@ describe('Blog app', function() {
     cy.request('POST', 'http://localhost:3003/api/users/', user) 
     cy.login({ username: 'root', password: 'toor' })
     cy.createBlog({title: 'title', author: 'exists', url: 'yes', likes: 0})
+    cy.createBlog({title: 'title2', author: 'exists2', url: 'yes2', likes: 10})
     cy.visit('http://localhost:3000')
   })
     it('front page can be opened', function() {
@@ -42,6 +43,14 @@ describe('Blog app', function() {
     it('a blog can be deleted', function() {
       cy.contains('title').parent().find('#Details').click()
       cy.contains('title').parent().find('#delete').click()
+    })
+    it('Sorted by likes', function(){
+      cy.contains('title').parent().find('#Details').click()
+      cy.contains('title2').parent().find('#Details').click()
+
+      cy.get('.blog').eq(0).should('contain', '0')
+      cy.get('.blog').eq(1).should('contain', '10')
+
     })
 
   })
